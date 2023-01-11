@@ -13,20 +13,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@Entity
+@Entity(name = "users")
 @NoArgsConstructor
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String username;
     private String password;
     private String email;
     private String phone;
     private String address;
+
     @Transient
     private Collection<? extends GrantedAuthority> authorities = Collections.EMPTY_LIST;
-    private boolean isEnable;
+    private boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -50,12 +51,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEnable;
+        return enabled;
     }
 
     public User(String username, String password, List<String> roles) {
         this.username = username;
         this.password = password;
-        this.authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toList());
+        this.enabled = true;
+        this.authorities = mapAuthorities(roles);
+    }
+
+    public User(String username, String password, String role) {
+        this(username, password, List.of(role));
+    }
+
+    private Collection<? extends GrantedAuthority> mapAuthorities(List<String> roles) {
+        return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 }

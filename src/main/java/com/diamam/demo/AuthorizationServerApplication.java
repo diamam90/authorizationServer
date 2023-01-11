@@ -8,8 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
-
 @SpringBootApplication
 public class AuthorizationServerApplication {
 
@@ -18,10 +16,12 @@ public class AuthorizationServerApplication {
     }
 
     @Bean
-    public ApplicationRunner dataLoader(UserRepository repo, PasswordEncoder encoder){
-        return args-> {
-            repo.save(new User("habuma", encoder.encode("password"), List.of("ROLE_ADMIN") ));
-            repo.save(new User("tacochef", encoder.encode("password"), List.of("ROLE_ADMIN") ));
+    public ApplicationRunner dataLoader(UserRepository repo, PasswordEncoder encoder) {
+        return args -> {
+            repo.save(new User("habuma", encoder.encode("password"), "ROLE_ADMIN"));
+            repo.save(new User("tacochef", encoder.encode("password"), "ADMIN"));
         };
     }
+
+
 }

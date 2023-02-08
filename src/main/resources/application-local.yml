@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+#    root: trace
+    web: trace
+    org.springframework.security: trace

@@ -1,12 +1,12 @@
 package com.diamam.demo.entity;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private String address;
 
     @Transient
-    private Collection<? extends GrantedAuthority> authorities = Collections.EMPTY_LIST;
+    private Collection<? extends GrantedAuthority> authorities;
     private boolean enabled;
 
     @Override
